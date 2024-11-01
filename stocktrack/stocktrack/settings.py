@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "rest_framework",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -80,7 +81,11 @@ DATABASES = {
         'USER': 'postgres',
         'PASSWORD': 'stocktrack499password',
         'HOST': 'stocktrack-db.cl0cq8a0wy8a.us-east-2.rds.amazonaws.com',
-        'PORT': '5432'
+        'PORT': '5432',
+        'OPTIONS': {
+            'sslmode': 'require',
+            'sslrootcert': 'us-east-2-bundle.pem'
+        }
     }
 }
 
