@@ -1,12 +1,5 @@
 from django.db import models
 
-ROLES = (
-    ('admin', 'Admin'),
-    ('employee', 'Employee'),
-    ('manager', 'Manager'),
-    ('customer', 'Customer'),
-)
-
 # Used to assign a unique ID to a manufacturer
 class Manufacturers(models.Model):
     # ID already auto-populates, dont need to specify

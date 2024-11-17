@@ -1,12 +1,5 @@
 from django.db import models
 
-ROLES = (
-    ('admin', 'Admin'),
-    ('employee', 'Employee'),
-    ('manager', 'Manager'),
-    ('customer', 'Customer'),
-)
-
 class ExampleModel(models.Model):
     # ID already auto-populates, dont need to specify
     boolean_field = models.BooleanField()
