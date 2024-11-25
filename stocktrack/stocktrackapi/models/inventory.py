@@ -14,3 +14,4 @@ class Stock(models.Model):
     part_number = models.TextField(default='default value', blank=False, null=False)
     stock_level = models.IntegerField()
     reorder_point = models.IntegerField()  
+    storage_bin = models.TextField(default='default value', blank=False, null=False)    # Should hold a value like F01, R09, etc
