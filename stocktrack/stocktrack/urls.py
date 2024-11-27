@@ -17,10 +17,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-from stocktrackapi import views
+import stocktrackapi.views.userview as userview
 
 router = routers.DefaultRouter()
-router.register(r'stocktrackusers', views.StockTrackUserViewset)
+router.register(r'users', userview.StockTrackUserViewset)
 
 urlpatterns = [
     path('', include(router.urls)),
