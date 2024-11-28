@@ -1,14 +1,12 @@
-from datetime import datetime, timezone
+from datetime import datetime
 import secrets
 from rest_framework import viewsets
 from rest_framework.decorators import action, throttle_classes
 from rest_framework.response import Response
 from rest_framework import status
-from django.shortcuts import get_object_or_404
-from django.shortcuts import render
 from rest_framework import viewsets
-from stocktrackapi.models.stocktrackuser import StockTrackUser, Role
-from stocktrackapi.serializers.serializers import StockTrackUserSerializer
+from ..models.stocktrackuser import StockTrackUser, Role
+from ..serializers import StockTrackUserSerializer
 from .. import firebaseauth
 from .. import utilities
 
@@ -21,7 +19,7 @@ from firebase_admin import auth
 
 # /stocktrackusers
 
-class StockTrackUserViewset(viewsets.GenericViewSet):
+class StockTrackUserViewSet(viewsets.GenericViewSet):
     queryset = StockTrackUser.objects.all().order_by('created')
     serializer_class = StockTrackUserSerializer
 
