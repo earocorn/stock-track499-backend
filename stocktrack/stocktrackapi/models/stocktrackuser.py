@@ -31,6 +31,20 @@ class Role(Enum):
         if isinstance(role, str):
             return role == Role.ADMIN.value or role == Role.MANAGER.value
         return role == Role.ADMIN or role == Role.MANAGER
+    
+    def is_employee(role):
+        if role is None:
+            return False
+        if isinstance(role, str):
+            return role == Role.EMPLOYEE.value
+        return role == Role.EMPLOYEE
+    
+    def is_customer(role):
+        if role is None:
+            return False
+        if isinstance(role, str):
+            return role == Role.CUSTOMER.value
+        return role == Role.CUSTOMER
 
 
 class StockTrackUser(models.Model):

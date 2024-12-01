@@ -18,9 +18,11 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 import stocktrackapi.views.userview as userview
+import stocktrackapi.views.inventoryview as inventoryview
 
 router = routers.DefaultRouter()
-router.register(r'users', userview.StockTrackUserViewset)
+router.register(r'users', userview.StockTrackUserViewSet)
+router.register(r'inventory', inventoryview.InventoryViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

@@ -32,7 +32,7 @@ SECRET_KEY = "django-insecure-2-nhtti=s!bd&ghm5g$)!nqjk4)kpy3=vcp%zdov30ds%*bn9p
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 APPEND_SLASH = True
 

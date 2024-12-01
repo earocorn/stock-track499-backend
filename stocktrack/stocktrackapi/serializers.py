@@ -1,10 +1,8 @@
 from rest_framework import serializers
 
-from models.stocktrackuser import StockTrackUser
-from models.orders import PurchaseOrder
-
-# We can choose to do classes or just put them all in here,
-# probably classes to keep it neater
+from .models.stocktrackuser import StockTrackUser
+from .models.orders import PurchaseOrder
+from .models.inventory import Part
 
 class StockTrackUserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -16,4 +14,7 @@ class PurchaseOrderSerializer(serializers.ModelSerializer):
         model = PurchaseOrder
         fields = ('__all__')
         
-class Stock
+class PartSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Part
+        fields = ('__all__')
