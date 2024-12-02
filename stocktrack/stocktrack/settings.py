@@ -36,7 +36,6 @@ ALLOWED_HOSTS = ['*']
 
 APPEND_SLASH = True
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -49,6 +48,7 @@ INSTALLED_APPS = [
     "stocktrackapi",
     "rest_framework",
     "rest_framework.authtoken",
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
@@ -60,6 +60,10 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+CORS_ALLOWED_ORIGINS = ['*']
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = "stocktrack.urls"
 
