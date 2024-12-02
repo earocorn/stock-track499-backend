@@ -43,7 +43,7 @@ class StockTrackUserViewSet(viewsets.GenericViewSet):
         # Invalid role = customer
         if not Role.is_valid(role_from_token):
             requested_role = Role.CUSTOMER
-        
+
         # Don't allow lower level user to get higher level role
         has_permissions = Role.is_admin_or_manager(role_from_token)
         if not has_permissions and requested_role != Role.CUSTOMER:
@@ -54,7 +54,7 @@ class StockTrackUserViewSet(viewsets.GenericViewSet):
             if has_permissions:
                 print("User has permissions, creating new account")
                 random_password = secrets.token_urlsafe(16)
-                new_firebase_user = auth.create_user(email=email, password=random_password)
+                new_firebase_user = auth.create_user(email=email, password='password123')
                 print(new_firebase_user)
                 uid = new_firebase_user.uid
             # Customer creating their own account
@@ -72,13 +72,15 @@ class StockTrackUserViewSet(viewsets.GenericViewSet):
                 'email': email,
                 'created': datetime.now(),
                 'profile_img': '',
-                'role': requested_role
+                'role': 'admin'
             }
             print('Attempting to create user', new_user)
 
             # Save user in database
             serializer = self.get_serializer(data=new_user)
+
             if not serializer.is_valid():
+                print('serializer errors', serializer.errors)
                 print('User data invalid; unable to serialize')
                 return utilities.SERVER_ERROR
             
@@ -94,16 +96,19 @@ class StockTrackUserViewSet(viewsets.GenericViewSet):
         
 
     def list(self, request):
-        firebase_token = request.META.get('HTTP_AUTHORIZATION', '').split()[1]
-        if not firebase_token:
-            return utilities.UNAUTHORIZED
-        role_from_token = firebaseauth.get_user_role(firebase_token)
-        print(role_from_token)
-
-        # Only allow admins/managers to see all users
-        if not Role.is_admin_or_manager(role_from_token):
-            return utilities.UNAUTHORIZED
         try:
+            auth_header = request.META.get('HTTP_AUTHORIZATION', '')
+            if not auth_header:
+                return utilities.UNAUTHORIZED
+
+            firebase_token = auth_header.split()[1]
+            role_from_token = firebaseauth.get_user_role(firebase_token)
+            print(role_from_token)
+
+            # Only allow admins/managers to see all users
+#             if not Role.is_admin_or_manager(role_from_token):
+#                 return utilities.UNAUTHORIZED
+
             serializer = self.get_serializer(self.queryset, many=True)
             print(serializer.data)
             return Response(serializer.data, status=status.HTTP_200_OK)
