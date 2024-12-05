@@ -25,7 +25,7 @@ class InventoryViewSet(viewsets.GenericViewSet):
             
             part_data = {
                 'part_number': request.data.get('part_number'),
-                'supplier_ID': request.data.get('supplier_id'),
+                'supplier_id': request.data.get('supplier_id'),
                 'inbound_price': request.data.get('inbound_price'),
                 'outbound_price': request.data.get('outbound_price'),
                 'stock_level': request.data.get('stock_level', 0),
@@ -111,7 +111,7 @@ class InventoryViewSet(viewsets.GenericViewSet):
             
             update_data = {
                 'part_number': request.data.get('part_number', part.part_number),
-                'supplier_ID': request.data.get('supplier_ID', part.supplier_ID),
+                'supplier_id': request.data.get('supplier_id', part.supplier_id),
                 'inbound_price': request.data.get('inbound_price', part.inbound_price),
                 'outbound_price': request.data.get('outbound_price', part.outbound_price),
                 'stock_level': request.data.get('stock_level', part.stock_level),

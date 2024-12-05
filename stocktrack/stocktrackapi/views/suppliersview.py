@@ -24,7 +24,7 @@ class SupplierViewSet(viewsets.GenericViewSet):
                 return utilities.FORBIDDEN
             
             supplier_data = {
-                'supplier_ID': request.data.get('supplier_ID'),
+                'supplier_id': request.data.get('supplier_id'),
                 'supplier_name': request.data.get('supplier_name')
             }
             
@@ -79,7 +79,7 @@ class SupplierViewSet(viewsets.GenericViewSet):
                 return utilities.FORBIDDEN
             
             try:
-                supplier = Suppliers.objects.get(supplier_ID=pk)
+                supplier = Suppliers.objects.get(supplier_id=pk)
             except Suppliers.DoesNotExist:
                 return utilities.NOT_FOUND
             
@@ -101,12 +101,12 @@ class SupplierViewSet(viewsets.GenericViewSet):
                 return utilities.FORBIDDEN
             
             try:
-                supplier = Suppliers.objects.get(supplier_ID=pk)
+                supplier = Suppliers.objects.get(supplier_id=pk)
             except Suppliers.DoesNotExist:
                 return utilities.NOT_FOUND
             
             update_data = {
-                'supplier_ID': request.data.get('supplier_ID', supplier.supplier_ID),
+                'supplier_id': request.data.get('supplier_id', supplier.supplier_id),
                 'supplier_name': request.data.get('supplier_name', supplier.supplier_name)
             }
             
@@ -133,7 +133,7 @@ class SupplierViewSet(viewsets.GenericViewSet):
                 return utilities.FORBIDDEN
             
             try:
-                supplier = Suppliers.objects.get(supplier_ID=pk)
+                supplier = Suppliers.objects.get(supplier_id=pk)
             except Suppliers.DoesNotExist:
                 return utilities.NOT_FOUND
             
