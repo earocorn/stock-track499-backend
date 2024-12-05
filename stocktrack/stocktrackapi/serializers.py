@@ -12,6 +12,9 @@ class StockTrackUserSerializer(serializers.ModelSerializer):
         fields = ('__all__')
 
 class PurchaseOrderSerializer(serializers.ModelSerializer):
+
+    due_date = serializers.DateField(format="%Y-%m-%d", input_formats=["%Y-%m-%d", "%m/%d/%Y"])
+
     class Meta:
         model = PurchaseOrder
         fields = ('__all__')

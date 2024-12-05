@@ -53,8 +53,8 @@ class OrdersViewSet(viewsets.GenericViewSet):
                 'part_number': request.data.get('part_number'),
                 'supplier_id': request.data.get('supplier_id'),
                 'qty': qty,
-                'due_date': request.data.get('due_date'),
-                'created': datetime.now(),
+                'due_date': datetime.strptime(request.data['due_date'], "%Y-%m-%d").date(),
+                'created': datetime.now().date(),
                 'value': value,
                 'customer_id': decoded_token.get('uid'),
                 'is_outbound': is_outbound
