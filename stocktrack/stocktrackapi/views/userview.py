@@ -140,12 +140,48 @@ class StockTrackUserViewSet(viewsets.GenericViewSet):
             return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
         except auth.InvalidIdTokenError:
             return Response({'error': 'Invalid Firebase ID token'}, status=status.HTTP_401_UNAUTHORIZED)
-        
-
 
     def update(self, request, pk=None):
-        pass
+        firebase_token = request.META.get('HTTP_AUTHORIZATION', '').split()[1]
+        if not firebase_token:
+            return utilities.UNAUTHORIZED
+        role_from_token = firebaseauth.get_user_role(firebase_token)
+        
+        try:
+            decoded_token = firebaseauth.get_decoded_token(firebase_token)
+            if not decoded_token:
+                return utilities.INVALID
+            decoded_uid = decoded_token['uid']
 
+            # Allow admins/managers to update any user or regular users to update themselves
+            if not Role.is_admin_or_manager(role_from_token) and decoded_uid != pk:
+                return utilities.FORBIDDEN
+
+            user = StockTrackUser.objects.get(uid=pk)
+
+            # Admins/managers can update any field; regular users are restricted
+            if not Role.is_admin_or_manager(role_from_token):
+                restricted_fields = ['role', 'email', 'created']
+                user_data = request.data.copy()
+                for field in restricted_fields:
+                    user_data.pop(field, None)
+            else:
+                user_data = request.data
+
+            serializer = self.get_serializer(user, data=user_data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return utilities.success_response("User successfully updated")
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        except StockTrackUser.DoesNotExist:
+            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+        except auth.InvalidIdTokenError:
+            return Response({'error': 'Invalid Firebase ID token'}, status=status.HTTP_401_UNAUTHORIZED)
+        except Exception as e:
+            print(str(e))
+            return utilities.SERVER_ERROR
 
     def destroy(self, request, pk=None):
         firebase_token = request.META.get('HTTP_AUTHORIZATION', '').split()[1]
