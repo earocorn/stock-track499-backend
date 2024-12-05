@@ -20,13 +20,15 @@ from rest_framework import routers
 import stocktrackapi.views.userview as userview
 import stocktrackapi.views.inventoryview as inventoryview
 import stocktrackapi.views.ordersview as ordersview
-import stocktrackapi.views.suppliers as suppliersview
+import stocktrackapi.views.suppliersview as suppliersview
+import stocktrackapi.views.manufacturersview as manufacturersview
 
 router = routers.DefaultRouter()
 router.register(r'users', userview.StockTrackUserViewSet)
 router.register(r'inventory', inventoryview.InventoryViewSet)
 router.register(r'orders', ordersview.OrdersViewSet)
-router.register(r'suppliers', suppliers.SupplierViewSet)
+router.register(r'suppliers', suppliersview.SupplierViewSet)
+router.register(r'manufacturers', manufacturersview.ManufacturerViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
