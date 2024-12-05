@@ -13,13 +13,9 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import firebase_admin
 from firebase_admin import credentials
-import os
 
 # Get firebase service account credentials
-for i in os.get_exec_path():
-    print(i)
-print(os.listdir(os.get_exec_path()[0]))
-cred = credentials.Certificate("/app/stocktrack/stock-track499-firebase-adminsdk-ahngn-8b7e544b82.json")
+cred = credentials.Certificate("stocktrack/stock-track499-firebase-adminsdk-ahngn-8b7e544b82.json")
 firebase_admin.initialize_app(cred)
 
 
@@ -36,8 +32,9 @@ SECRET_KEY = "django-insecure-2-nhtti=s!bd&ghm5g$)!nqjk4)kpy3=vcp%zdov30ds%*bn9p
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
+APPEND_SLASH = True
 
 # Application definition
 
@@ -50,9 +47,12 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "stocktrackapi",
     "rest_framework",
+    "rest_framework.authtoken",
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
+'corsheaders.middleware.CorsMiddleware',
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -61,6 +61,12 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+
+CORS_ALLOWED_ORIGINS = ["http://localhost:5173"]
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = "stocktrack.urls"
 
@@ -142,3 +148,9 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ]
+}
