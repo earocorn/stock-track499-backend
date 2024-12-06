@@ -24,10 +24,12 @@ class InventoryViewSet(viewsets.GenericViewSet):
                 return utilities.FORBIDDEN
             
             part_data = {
+                'part_name': request.data.get('part_name'),
                 'part_number': request.data.get('part_number'),
                 'supplier_id': request.data.get('supplier_id'),
                 'inbound_price': request.data.get('inbound_price'),
                 'outbound_price': request.data.get('outbound_price'),
+                'lead_time': request.data.get('lead_time', 2),
                 'stock_level': request.data.get('stock_level', 0),
                 'reorder_point': request.data.get('reorder_point')
             }
@@ -110,12 +112,14 @@ class InventoryViewSet(viewsets.GenericViewSet):
                 return utilities.NOT_FOUND
             
             update_data = {
+                'part_name': request.data.get('part_name', part.part_name),
                 'part_number': request.data.get('part_number', part.part_number),
                 'supplier_id': request.data.get('supplier_id', part.supplier_id),
                 'inbound_price': request.data.get('inbound_price', part.inbound_price),
                 'outbound_price': request.data.get('outbound_price', part.outbound_price),
                 'stock_level': request.data.get('stock_level', part.stock_level),
-                'reorder_point': request.data.get('reorder_point', part.reorder_point)
+                'reorder_point': request.data.get('reorder_point', part.reorder_point),
+                'lead_time': request.data.get('lead_time', part.lead_time)
             }
             
             serializer = self.get_serializer(part, data=update_data)

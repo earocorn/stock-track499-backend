@@ -50,6 +50,7 @@ class OrdersViewSet(viewsets.GenericViewSet):
             
             order_data = {
                 'po_number': request.data.get('po_number'),
+                'part_name': request.data.get('part_name'),
                 'part_number': request.data.get('part_number'),
                 'supplier_id': request.data.get('supplier_id'),
                 'qty': qty,
