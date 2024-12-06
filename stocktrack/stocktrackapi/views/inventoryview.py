@@ -6,6 +6,7 @@ from ..serializers import PartSerializer
 from .. import utilities
 from .. import firebaseauth
 from ..models.stocktrackuser import Role
+from ..models.companies import Suppliers
 import datetime
 
 class InventoryViewSet(viewsets.GenericViewSet):
@@ -31,6 +32,12 @@ class InventoryViewSet(viewsets.GenericViewSet):
                 'stock_level': request.data.get('stock_level', 0),
                 'reorder_point': request.data.get('reorder_point')
             }
+            
+            try:
+                Suppliers.objects.get(supplier_id=part_data['supplier_id'])
+            except Suppliers.DoesNotExist:
+                return utilities.BAD_PAYLOAD
+                
             
             serializer = self.get_serializer(data=part_data)
             if not serializer.is_valid():
