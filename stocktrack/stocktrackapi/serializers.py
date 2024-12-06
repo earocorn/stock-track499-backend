@@ -4,7 +4,7 @@ from .models.stocktrackuser import StockTrackUser
 from .models.orders import PurchaseOrder
 from .models.inventory import Part
 from .models.companies import Suppliers
-from .models.companies import Manufacturers
+
 
 class StockTrackUserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -27,10 +27,5 @@ class PartSerializer(serializers.ModelSerializer):
 class SupplierSerializer(serializers.ModelSerializer):
     class Meta:
         model = Suppliers
-        fields = ('__all__')
-
-class ManufacturerSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Manufacturers
         fields = ('__all__')
 

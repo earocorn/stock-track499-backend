@@ -3,7 +3,6 @@ from django.db import models
 # List of available parts
 class Part(models.Model):
     part_number = models.IntegerField(unique=True, blank=False, null=False)
-    # manufacturer_ID = models.IntegerField()
     supplier_id = models.IntegerField()
     # lead_time = models.IntegerField() # Days from order to delivery?
     inbound_price = models.FloatField()
