@@ -28,7 +28,7 @@ router.register(r'users', userview.StockTrackUserViewSet)
 router.register(r'inventory', inventoryview.InventoryViewSet)
 router.register(r'orders', ordersview.OrdersViewSet)
 router.register(r'suppliers', suppliersview.SupplierViewSet)
-router.register(r'stats', statsview.StatsViewSet)
+router.register(r'stats', statsview.StatsViewSet, basename='stats')
 
 urlpatterns = [
     path('', include(router.urls)),

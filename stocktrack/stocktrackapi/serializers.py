@@ -29,3 +29,9 @@ class SupplierSerializer(serializers.ModelSerializer):
         model = Suppliers
         fields = ('__all__')
 
+class StatsSerializer(serializers.ModelSerializer):
+    class Meta:
+#         model = Stats
+        fields = ('__all__')
+
+

@@ -6,6 +6,8 @@ from ..models.inventory import Part
 from rest_framework.response import Response
 from django.db.models import Sum
 from rest_framework import status
+from ..serializers import StatsSerializer
+
 
 # /stats/10-12-2024
 # {
@@ -16,6 +18,8 @@ from rest_framework import status
 # }
 
 class StatsViewSet(viewsets.GenericViewSet):
+    queryset = PurchaseOrder.objects.all()
+    serializer_class = StatsSerializer
 
     def retrieve(self, request, pk=None):
         try:
