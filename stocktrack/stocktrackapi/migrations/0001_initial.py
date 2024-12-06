@@ -12,18 +12,6 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='ExampleModel',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('boolean_field', models.BooleanField()),
-                ('date_field', models.DateField()),
-                ('datetime_field', models.DateTimeField()),
-                ('integer_field', models.IntegerField()),
-                ('float_field', models.FloatField()),
-                ('example_constraints', models.TextField(default='default value')),
-            ],
-        ),
-        migrations.CreateModel(
             name='StockTrackUser',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
