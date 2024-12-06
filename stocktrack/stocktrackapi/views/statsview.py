@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 from rest_framework import viewsets
 from ..models.orders import PurchaseOrder
 from ..models.stocktrackuser import StockTrackUser
@@ -6,8 +6,7 @@ from ..models.inventory import Part
 from rest_framework.response import Response
 from django.db.models import Sum
 from rest_framework import status
-from ..serializers import StatsSerializer
-
+from rest_framework import serializers
 
 # /stats/10-12-2024
 # {
@@ -17,8 +16,23 @@ from ..serializers import StatsSerializer
 #     'num_low_stock_items': 5
 # }
 
+class Stats(object):
+    def __init__(self, **kwargs):
+        for field in ('revenue', 'num_customers', 'num_orders', 'num_low_stock_items'):
+            setattr(self, field, kwargs.get(field, None))
+            
+            
+class StatsSerializer(serializers.Serializer):
+    revenue = serializers.DecimalField(read_only=True, max_digits=12, decimal_places=2)
+    num_customers = serializers.IntegerField(read_only=True)
+    num_orders = serializers.IntegerField(read_only=True)
+    num_low_stock_items = serializers.IntegerField(read_only=True)
+    
+    def create(self, validated_data):
+        return Stats(id=None, **validated_data)
+
+
 class StatsViewSet(viewsets.GenericViewSet):
-    queryset = PurchaseOrder.objects.all()
     serializer_class = StatsSerializer
 
     def retrieve(self, request, pk=None):
@@ -43,12 +57,14 @@ class StatsViewSet(viewsets.GenericViewSet):
                 if i.stock_level < i.reorder_point:
                     num_low_stock_items += 1
             
-            return Response({
+            stats = {
                 'revenue': revenue,
                 'num_customers': num_customers,
                 'num_orders': num_orders,
                 'num_low_stock_items': num_low_stock_items
-            })
+            }
+            
+            return Response(stats)
             
         except ValueError:
             return Response({'error': 'Invalid date format. Use DD-MM-YYYY'},status=status.HTTP_400_BAD_REQUEST)
