@@ -8,6 +8,7 @@ from django.db.models import Sum
 from rest_framework import status
 from rest_framework import serializers
 
+
 # /stats/10-12-2024
 # {
 #     'revenue': 50000,
@@ -27,13 +28,12 @@ class StatsSerializer(serializers.Serializer):
     num_customers = serializers.IntegerField(read_only=True)
     num_orders = serializers.IntegerField(read_only=True)
     num_low_stock_items = serializers.IntegerField(read_only=True)
-    
+
     def create(self, validated_data):
         return Stats(id=None, **validated_data)
 
 
 class StatsViewSet(viewsets.GenericViewSet):
-    serializer_class = StatsSerializer
 
     def retrieve(self, request, pk=None):
         try:

@@ -72,7 +72,7 @@ class StockTrackUserViewSet(viewsets.GenericViewSet):
                 'email': email,
                 'created': datetime.now(),
                 'profile_img': '',
-                'role': 'admin'
+                'role': 'customer'
             }
             print('Attempting to create user', new_user)
 
