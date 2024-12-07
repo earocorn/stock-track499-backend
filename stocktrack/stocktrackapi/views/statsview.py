@@ -37,7 +37,7 @@ class StatsViewSet(viewsets.GenericViewSet):
 
     def retrieve(self, request, pk=None):
         try:
-            date = datetime.strptime(pk, '%d-%m-%Y').date()
+            date = datetime.strptime(pk, '%m-%d-%Y').date()
             
             revenue = 0
 
@@ -54,7 +54,7 @@ class StatsViewSet(viewsets.GenericViewSet):
             
             num_low_stock_items = 0
             for i in Part.objects.all():
-                if i.stock_level < i.reorder_point:
+                if i.stock_level <=i.reorder_point:
                     num_low_stock_items += 1
             
             stats = {
