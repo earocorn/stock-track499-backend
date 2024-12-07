@@ -4,7 +4,7 @@ import datetime
 
 class PurchaseOrder(models.Model):
     # ID already auto-populates, dont need to specify
-    po_number = models.IntegerField()
+#     po_number = models.IntegerField()
     part_name = models.TextField(default='Unknown Item', blank=False, null=False)
     part_number = models.IntegerField(blank=False, null=False)
     supplier_id = models.IntegerField()

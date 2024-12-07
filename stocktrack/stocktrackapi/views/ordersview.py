@@ -49,7 +49,7 @@ class OrdersViewSet(viewsets.GenericViewSet):
                 return utilities.bad_request_response("Part not found")
             
             order_data = {
-                'po_number': request.data.get('po_number'),
+#                 'po_number': request.data.get('po_number'),
                 'part_name': request.data.get('part_name'),
                 'part_number': request.data.get('part_number'),
                 'supplier_id': request.data.get('supplier_id'),
