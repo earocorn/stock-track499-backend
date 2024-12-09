@@ -68,12 +68,6 @@ class OrdersViewSet(viewsets.GenericViewSet):
             
             serializer.save()
             
-            if is_outbound:
-                part.stock_level -= qty
-            else:
-                part.stock_level += qty
-            part.save()
-            
             return utilities.created_response(serializer.data)
             
         except Exception as e:
@@ -145,17 +139,11 @@ class OrdersViewSet(viewsets.GenericViewSet):
                 part = Part.objects.get(part_number=order.part_number)
                 
                 if order.is_outbound:
-                    part.stock_level -= order.qty
+                    if PurchaseOrder.status == "Shipped":
+                        part.stock_level -= order.qty
                 else:
-                    part.stock_level += order.qty
-                
-                new_qty = int(request.data.get('qty', order.qty))
-                if order.is_outbound:
-                    if part.stock_level < new_qty:
-                        return utilities.bad_request_response("Insufficient stock level")
-                    part.stock_level -= new_qty
-                else:
-                    part.stock_level += new_qty
+                    if PurchaseOrder.status == "Received":
+                        part.stock_level += order.qty
                 
                 part.save()
                 
