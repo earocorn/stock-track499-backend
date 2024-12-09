@@ -32,7 +32,8 @@ class InventoryViewSet(viewsets.GenericViewSet):
                 'outbound_price': request.data.get('outbound_price'),
                 'lead_time': request.data.get('lead_time', 2),
                 'stock_level': request.data.get('stock_level', 0),
-                'reorder_point': request.data.get('reorder_point')
+                'reorder_point': request.data.get('reorder_point'),
+                'status': request.data.get('status')
             }
             
             try:
@@ -126,7 +127,8 @@ class InventoryViewSet(viewsets.GenericViewSet):
                 'outbound_price': request.data.get('outbound_price', part.outbound_price),
                 'stock_level': request.data.get('stock_level', part.stock_level),
                 'reorder_point': request.data.get('reorder_point', part.reorder_point),
-                'lead_time': request.data.get('lead_time', part.lead_time)
+                'lead_time': request.data.get('lead_time', part.lead_time),
+                'status': request.data.get('status', part.status)
             }
             
             serializer = self.get_serializer(part, data=update_data)

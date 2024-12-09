@@ -9,4 +9,5 @@ class Part(models.Model):
     inbound_price = models.FloatField()
     outbound_price = models.FloatField()  
     stock_level = models.IntegerField(default=0)
-    reorder_point = models.IntegerField()  
+    reorder_point = models.IntegerField()
+    status = models.TextField(default='In Stock', blank=False, null=False)
