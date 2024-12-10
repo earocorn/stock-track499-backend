@@ -12,7 +12,6 @@ class OrdersViewSet(viewsets.GenericViewSet):
     queryset = PurchaseOrder.objects.all().order_by('created')
     serializer_class = PurchaseOrderSerializer
     
-    @transaction.atomic
     def create(self, request):
         try:
             try:
@@ -122,7 +121,6 @@ class OrdersViewSet(viewsets.GenericViewSet):
             print(f"Error retrieving order: {str(e)}")
             return utilities.SERVER_ERROR
     
-    @transaction.atomic
     def update(self, request, pk=None):
         try:
             firebase_token = request.META.get('HTTP_AUTHORIZATION', '').split()[1]
@@ -140,11 +138,11 @@ class OrdersViewSet(viewsets.GenericViewSet):
                 if order.is_outbound:
 
                     if request.data.get('status') == "Shipped":
-                        part.stock_level -= order.qty
+                        part.set_stock_level(part.stock_level - order.qty)
 
                 else:
                     if request.data.get('status') == "Received":
-                        part.stock_level += order.qty
+                        part.set_stock_level(part.stock_level + order.qty)
                 
                 part.save()
                 
@@ -162,7 +160,6 @@ class OrdersViewSet(viewsets.GenericViewSet):
             print(f"Error updating order: {str(e)}")
             return utilities.SERVER_ERROR
     
-    @transaction.atomic
     def destroy(self, request, pk=None):
         try:
             firebase_token = request.META.get('HTTP_AUTHORIZATION', '').split()[1]
@@ -179,9 +176,9 @@ class OrdersViewSet(viewsets.GenericViewSet):
                 part = Part.objects.get(part_number=order.part_number)
                 
                 if order.is_outbound:
-                    part.stock_level += order.qty
+                    part.set_stock_level(part.stock_level + order.qty)
                 else:
-                    part.stock_level -= order.qty
+                    part.set_stock_level(part.stock_level - order.qty)
                 
                 part.save()
                 order.delete()

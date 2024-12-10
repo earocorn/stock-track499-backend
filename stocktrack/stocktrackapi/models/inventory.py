@@ -13,5 +13,11 @@ class Part(models.Model):
     status = models.TextField(default='In Stock', blank=False, null=False)
 
 
-#     def set_stock_level(self, ):
-        
+    def set_stock_level(self, new_stock_level):
+        if new_stock_level >= self.reorder_point:
+            self.status = 'In Stock'
+        elif new_stock_level < self.reorder_point:
+            self.status = 'Low Stock'
+        else:
+            self.status = 'Out of Stock'
+        self.stock_level = new_stock_level
