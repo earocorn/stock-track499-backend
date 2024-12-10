@@ -110,7 +110,6 @@ class StockTrackUserViewSet(viewsets.GenericViewSet):
 #                 return utilities.UNAUTHORIZED
 
             serializer = self.get_serializer(self.queryset, many=True)
-            print(serializer.data)
             return Response(serializer.data, status=status.HTTP_200_OK)
         except:
             return Response({}, status=status.HTTP_204_NO_CONTENT)

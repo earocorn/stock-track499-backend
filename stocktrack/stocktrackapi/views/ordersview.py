@@ -81,7 +81,7 @@ class OrdersViewSet(viewsets.GenericViewSet):
             user_role = firebaseauth.get_user_role(firebase_token)
             decoded_token = firebaseauth.get_decoded_token(firebase_token)
             
-            orders = self.queryset
+            orders = PurchaseOrder.objects.all().order_by('created')
             if user_role == Role.CUSTOMER:
                 orders = orders.filter(
                     customer_id=decoded_token.get('uid'),

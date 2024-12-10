@@ -53,9 +53,7 @@ class SupplierViewSet(viewsets.GenericViewSet):
             if not (Role.is_admin_or_manager(user_role) or Role.is_employee(user_role)):
                 return utilities.FORBIDDEN
             
-            print(self.queryset)
-            print(len(self.queryset))
-            suppliers = self.queryset
+            suppliers = Suppliers.objects.all()
             if len(suppliers) == 0:
                 return Response({}, status=status.HTTP_204_NO_CONTENT)
             

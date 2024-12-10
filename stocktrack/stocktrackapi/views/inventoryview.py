@@ -67,9 +67,7 @@ class InventoryViewSet(viewsets.GenericViewSet):
 #             if not (Role.is_admin_or_manager(user_role) or Role.is_employee(user_role)):
 #                 return utilities.FORBIDDEN
             
-            print(self.queryset)
-            print(len(self.queryset))
-            parts = self.queryset
+            parts = Part.objects.all()
             if len(parts) == 0:
                 return Response({}, status=status.HTTP_204_NO_CONTENT)
             
