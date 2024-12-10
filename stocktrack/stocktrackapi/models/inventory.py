@@ -11,3 +11,7 @@ class Part(models.Model):
     stock_level = models.IntegerField(default=0)
     reorder_point = models.IntegerField()
     status = models.TextField(default='In Stock', blank=False, null=False)
+
+
+#     def set_stock_level(self, ):
+        

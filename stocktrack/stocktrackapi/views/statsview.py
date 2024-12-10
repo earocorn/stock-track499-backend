@@ -51,11 +51,11 @@ class StatsViewSet(viewsets.GenericViewSet):
             num_orders = PurchaseOrder.objects.filter(
                 created=date
             ).count()
-            
-            num_low_stock_items = 0
-            for i in Part.objects.all():
-                if i.stock_level <=i.reorder_point:
-                    num_low_stock_items += 1
+
+
+            num_low_stock_items = Part.objects.filter(
+                status='Low Stock'
+            ).count()
             
             stats = {
                 'revenue': revenue,

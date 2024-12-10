@@ -49,7 +49,6 @@ class OrdersViewSet(viewsets.GenericViewSet):
                 return utilities.bad_request_response("Part not found")
             
             order_data = {
-#                 'po_number': request.data.get('po_number'),
                 'part_name': request.data.get('part_name'),
                 'part_number': request.data.get('part_number'),
                 'supplier_id': request.data.get('supplier_id'),
@@ -139,10 +138,12 @@ class OrdersViewSet(viewsets.GenericViewSet):
                 part = Part.objects.get(part_number=order.part_number)
                 
                 if order.is_outbound:
-                    if PurchaseOrder.status == "Shipped":
+
+                    if request.data.get('status') == "Shipped":
                         part.stock_level -= order.qty
+
                 else:
-                    if PurchaseOrder.status == "Received":
+                    if request.data.get('status') == "Received":
                         part.stock_level += order.qty
                 
                 part.save()
