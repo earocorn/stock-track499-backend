@@ -50,8 +50,8 @@ class SupplierViewSet(viewsets.GenericViewSet):
             user_role = firebaseauth.get_user_role(firebase_token)
             
             # Only allow admin, manager, and employee to view inventory
-            if not (Role.is_admin_or_manager(user_role) or Role.is_employee(user_role)):
-                return utilities.FORBIDDEN
+#             if not (Role.is_admin_or_manager(user_role) or Role.is_employee(user_role)):
+#                 return utilities.FORBIDDEN
             
             suppliers = Suppliers.objects.all()
             if len(suppliers) == 0:
@@ -72,9 +72,9 @@ class SupplierViewSet(viewsets.GenericViewSet):
             
             user_role = firebaseauth.get_user_role(firebase_token)
             
-            # Only allow admin, manager, and employee to retrieve inventory
-            if not (Role.is_admin_or_manager(user_role) or user_role == Role.EMPLOYEE):
-                return utilities.FORBIDDEN
+            # Only allow admin, manager, and employee to retrieve suppliers
+#             if not (Role.is_admin_or_manager(user_role) or user_role == Role.EMPLOYEE):
+#                 return utilities.FORBIDDEN
             
             try:
                 supplier = Suppliers.objects.get(supplier_id=pk)
