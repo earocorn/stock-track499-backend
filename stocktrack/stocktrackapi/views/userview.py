@@ -107,7 +107,7 @@ class StockTrackUserViewSet(viewsets.GenericViewSet):
             print(role_from_token)
 
             # Only allow admins/managers to see all users
-            if not Role.is_admin_or_manager(role_from_token):
+            if not (Role.is_admin_or_manager(role_from_token) or Role.is_employee(role_from_token)):
                 return utilities.UNAUTHORIZED
 
             serializer = self.get_serializer(self.queryset, many=True)
@@ -129,7 +129,7 @@ class StockTrackUserViewSet(viewsets.GenericViewSet):
             decoded_uid = decoded_token['uid']
 
             # Only allow admins/managers to see any user, or allow user to see themself
-            if not Role.is_admin_or_manager(role_from_token) and decoded_uid != pk:
+            if not (Role.is_admin_or_manager(role_from_token) or Role.is_employee(role_from_token)) and decoded_uid != pk:
                 return utilities.FORBIDDEN
             
             user = StockTrackUser.objects.get(uid=pk) 
