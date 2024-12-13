@@ -9,7 +9,7 @@ from ..models.stocktrackuser import StockTrackUser, Role
 from ..serializers import StockTrackUserSerializer
 from .. import firebaseauth
 from .. import utilities
-
+import time
 from firebase_admin import auth
 
 
@@ -60,6 +60,7 @@ class StockTrackUserViewSet(viewsets.GenericViewSet):
             # Customer creating their own account
             else:
                 print("User does not have permissions, creating own account")
+
                 decoded_token = firebaseauth.get_decoded_token(firebase_token)
                 if not decoded_token:
                     return utilities.FORBIDDEN
@@ -72,7 +73,7 @@ class StockTrackUserViewSet(viewsets.GenericViewSet):
                 'email': email,
                 'created': datetime.now(),
                 'profile_img': '',
-                'role': requested_role
+                'role': requested_role.value
             }
             print('Attempting to create user', new_user)
 

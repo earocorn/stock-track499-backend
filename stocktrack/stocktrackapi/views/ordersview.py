@@ -128,7 +128,7 @@ class OrdersViewSet(viewsets.GenericViewSet):
                 return utilities.UNAUTHORIZED
             
             user_role = firebaseauth.get_user_role(firebase_token)
-            if not Role.is_admin_or_manager(user_role):
+            if Role.is_customer(user_role):
                 return utilities.FORBIDDEN
             
             try:
