@@ -72,7 +72,7 @@ class StockTrackUserViewSet(viewsets.GenericViewSet):
                 'email': email,
                 'created': datetime.now(),
                 'profile_img': '',
-                'role': Role.CUSTOMER
+                'role': requested_role
             }
             print('Attempting to create user', new_user)
 
@@ -106,8 +106,8 @@ class StockTrackUserViewSet(viewsets.GenericViewSet):
             print(role_from_token)
 
             # Only allow admins/managers to see all users
-#             if not Role.is_admin_or_manager(role_from_token):
-#                 return utilities.UNAUTHORIZED
+            if not Role.is_admin_or_manager(role_from_token):
+                return utilities.UNAUTHORIZED
 
             serializer = self.get_serializer(self.queryset, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
